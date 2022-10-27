@@ -9,7 +9,7 @@ export default function Profile() {
   } = router;
   const IsLogin = isLogin === "true";
 
-  console.log( IsLogin);
+  // console.log( IsLogin);
 
   return (
     <div className="flex flex-col justify-center h-screen items-center">
