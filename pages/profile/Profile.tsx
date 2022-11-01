@@ -1,15 +1,13 @@
 import React from "react";
 import Link from "next/link";
-import { useRouter } from "next/router";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { loginState } from "../recoilstate";
+
 
 export default function Profile() {
-  const router = useRouter();
-  const {
-    query: {isLogin}
-  } = router;
-  const IsLogin = isLogin === "true";
+const isLogin = useRecoilValue(loginState)
 
-  // console.log( IsLogin);
+  console.log(isLogin);
 
   return (
     <div className="flex flex-col justify-center h-screen items-center">

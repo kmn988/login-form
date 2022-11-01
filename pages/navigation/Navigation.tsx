@@ -1,20 +1,18 @@
 import React from "react";
 import { useRouter } from "next/router";
 
-export default function Navigation({ href, children, isLogin, onClick }: any) {
+
+export default function Navigation({ href, children }: any) {
   const router = useRouter();
-  // console.log(typeof onClick);
+
 
   return (
     <>
       <a
         onClick={() => {
+
           router.push({
             pathname: href,
-            query: {
-              isLogin: isLogin,
-              onClick: onClick(),
-            },
           });
         }}
       >

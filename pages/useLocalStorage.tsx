@@ -1,27 +1,40 @@
 import { useState, useEffect } from "react";
 
-function getStorageValue( key: any, defaultValue: any) {
-  // getting stored value
-  if (typeof window !== "undefined") {
-    const saved = JSON.parse(localStorage.getItem(key) as any);
-    if (saved) return saved
-    return defaultValue;
-  }
-}
-
-export const useLocalStorage = ( key: any, defaultValue: any) => {
-  const [value, setValue] = useState(() => {
-    return getStorageValue(key as any, defaultValue  as any);
+export default function useLocalStorage<T>(key: string, initialValue: T) {
+  // State to store our value
+  // Pass initial state function to useState so logic is only executed once
+  const [storedValue, setStoredValue] = useState<T>(() => {
+    if (typeof window === "undefined") {
+      return initialValue;
+    }
+    try {
+      // Get from local storage by key
+      const item = window.localStorage.getItem(key);
+      // Parse stored json or if none return initialValue
+      return item ? JSON.parse(item) : initialValue;
+    } catch (error) {
+      // If error also return initialValue
+      console.log(error);
+      return initialValue;
+    }
   });
-
-  useEffect(() => {
-    // storing input name
-    localStorage.setItem(key, JSON.stringify(value));
-    return localStorage.removeItem(key)
-    // {key, defaultValue}: any
-    // {key, defaultValue} as any
-
-  }, [ value]);
-
-  return [value, setValue];
-};
+  // Return a wrapped version of useState's setter function that ...
+  // ... persists the new value to localStorage.
+  const setValue = (value: T | ((val: T) => T)) => {
+    try {
+      // Allow value to be a function so we have same API as useState
+      const valueToStore =
+        value instanceof Function ? value(storedValue) : value;
+      // Save state
+      setStoredValue(valueToStore);
+      // Save to local storage
+      if (typeof window !== "undefined") {
+        window.localStorage.setItem(key, JSON.stringify(valueToStore));
+      }
+    } catch (error) {
+      // A more advanced implementation would handle the error case
+      console.log(error);
+    }
+  };
+  return [storedValue, setValue] as const;
+}
