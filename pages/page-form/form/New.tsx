@@ -1,9 +1,9 @@
 import React from 'react';
 
-const New = () => {
+const New = (props) => {
     return (
         <div>
-            
+            Hi
         </div>
     );
 };
