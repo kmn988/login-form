@@ -1,7 +1,7 @@
 .container {
   padding: 0 2rem;
 }
-
+//comment
 .main {
   min-height: 100vh;
   padding: 4rem 0;
@@ -11,7 +11,8 @@
   justify-content: center;
   align-items: center;
   filter: none;
-}
+} 
+
 
 .footer {
   display: flex;
