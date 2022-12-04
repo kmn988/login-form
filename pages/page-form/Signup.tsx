@@ -49,7 +49,7 @@ export default function Signup() {
 
       <Link href="/">
         <button className=" border-2 border-black rounded-md m-7 px-3 transition-all duration-200 hover:bg-stone-500 hover:text-white">
-          Back to home pageesfg
+          Back to home page
         </button>
       </Link>
     </div>
